@@ -1,0 +1,30 @@
+{
+  "schemaVersion": 1,
+  "id": "polymorphic_tom",
+  "version": "${version}",
+  "name": "Polymorphic Tom",
+  "description": "tom",
+  "authors": [
+    "kltyton"
+  ],
+  "contact": {
+    "website": "https://github.com/kltyton/Polymorphic-Tom",
+    "repo": "https://github.com/kltyton/Polymorphic-Tom"
+  },
+  "license": "LGPL-3.0",
+  "icon": "assets/polymorphic_tom/icon.png",
+  "environment": "client",
+  "entrypoints": {
+    "client": [
+      "com.kltyton.polymorphic_tom.client.Polymorphic_tomClient"
+    ]
+  },
+  "mixins": [
+    "polymorphic_tom.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=${loader_version}",
+    "fabric": "*",
+    "minecraft": "${minecraft_version}"
+  }
+}
