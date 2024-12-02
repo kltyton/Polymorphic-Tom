@@ -3,7 +3,6 @@ package com.kltyton.polymorphic_tom.mixin;
 import com.illusivesoulworks.polymorph.client.recipe.widget.PlayerRecipesWidget;
 import com.kltyton.polymorphic_tom.client.SharedState;
 import com.tom.storagemod.gui.CraftingTerminalMenu;
-import com.tom.storagemod.platform.PlatformRecipe;
 import com.tom.storagemod.tile.CraftingTerminalBlockEntity;
 import net.minecraft.client.Minecraft;
 import net.minecraft.resources.ResourceLocation;
