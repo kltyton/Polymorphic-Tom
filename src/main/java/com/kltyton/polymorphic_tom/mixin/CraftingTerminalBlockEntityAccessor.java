@@ -15,9 +15,10 @@ public interface CraftingTerminalBlockEntityAccessor {
     HashSet<CraftingTerminalMenu> getCraftingListeners();
     @Invoker("onCraftingMatrixChanged")
     void invokeOnCraftingMatrixChanged();
-
     @Accessor("currentRecipe")
     void setCurrentRecipe(PlatformRecipe recipe);
     @Accessor("refillingGrid")
     void setRefillingGrid(boolean value);
+    @Accessor("reading")
+    void setReading(boolean value);
 }

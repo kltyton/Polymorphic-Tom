@@ -26,14 +26,12 @@ public class CraftingTerminalBlockEntityMixin {
     private <C extends Container, R extends Recipe<C>> Optional<R> getRecipe(
             RecipeManager manager, RecipeType<R> type, C container, Level level) {
         CraftingTerminalBlockEntity self = (CraftingTerminalBlockEntity) (Object) this;
-        // 设置当前 CraftingTerminalBlockEntity
         SharedState.currentCraftingTerminal = self;
         Player player = null;
         CraftingTerminalMenu menu = null;
         HashSet<CraftingTerminalMenu> craftingListeners = ((CraftingTerminalBlockEntityAccessor) self).getCraftingListeners();
         for (CraftingTerminalMenu m : craftingListeners) {
             if (((StorageTerminalMenuAccessor) m).getTe() == self) {
-                // 获取玩家背包
                 Inventory playerInventory = ((StorageTerminalMenuAccessor) m).getPlayerInventory();
                 player = playerInventory.player;
                 menu = m;

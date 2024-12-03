@@ -18,17 +18,25 @@ public class PlayerRecipesWidgetMixin {
     @Inject(method = "selectRecipe", at = @At("TAIL"))
     private void onSelectRecipe(ResourceLocation resourceLocation, CallbackInfo ci) {
         Player player = Minecraft.getInstance().player;
-
-        if (player != null && player.containerMenu instanceof CraftingTerminalMenu menu) {
-            CraftingTerminalBlockEntity craftingBlockEntity = SharedState.currentCraftingTerminal;
-
-            if (craftingBlockEntity != null) {
-                ((CraftingTerminalBlockEntityAccessor) craftingBlockEntity).setRefillingGrid(false);
-                ((CraftingTerminalBlockEntityAccessor) craftingBlockEntity).setCurrentRecipe(null);
-                ((CraftingTerminalBlockEntityAccessor) craftingBlockEntity).invokeOnCraftingMatrixChanged();
-
-                // 然后刷新界面
-                menu.onCraftMatrixChanged();
+        if (player != null) {
+            if (player.containerMenu instanceof CraftingTerminalMenu) {
+                CraftingTerminalBlockEntity craftingBlockEntity = SharedState.currentCraftingTerminal;
+                if (craftingBlockEntity != null) {
+                    ((CraftingTerminalBlockEntityAccessor) craftingBlockEntity).setRefillingGrid(false);
+                    ((CraftingTerminalBlockEntityAccessor) craftingBlockEntity).setCurrentRecipe(null);
+                    ((CraftingTerminalBlockEntityAccessor) craftingBlockEntity).setReading(false);
+                    Minecraft.getInstance().execute(() -> {
+                        try {
+                            Thread.sleep(5);
+                            Minecraft.getInstance().execute(() -> {
+                                // 这里调用更新方法
+                                ((CraftingTerminalBlockEntityAccessor) craftingBlockEntity).invokeOnCraftingMatrixChanged();
+                            });
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    });
+                }
             }
         }
     }
