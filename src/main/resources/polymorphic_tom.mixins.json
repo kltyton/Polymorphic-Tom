@@ -6,7 +6,6 @@
   "mixins": [
     "CraftingTerminalBlockEntityAccessor",
     "CraftingTerminalBlockEntityMixin",
-    "PlayerRecipesWidgetMixin",
     "StorageTerminalMenuAccessor"
   ],
   "client": [

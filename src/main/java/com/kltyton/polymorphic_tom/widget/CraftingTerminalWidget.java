@@ -1,22 +1,34 @@
-package com.kltyton.polymorphic_tom.mixin;
+package com.kltyton.polymorphic_tom.widget;
 
+import com.illusivesoulworks.polymorph.api.client.base.ITickingRecipesWidget;
 import com.illusivesoulworks.polymorph.client.recipe.widget.PlayerRecipesWidget;
 import com.kltyton.polymorphic_tom.client.SharedState;
+import com.kltyton.polymorphic_tom.mixin.CraftingTerminalBlockEntityAccessor;
 import com.tom.storagemod.gui.CraftingTerminalMenu;
+import com.tom.storagemod.gui.CraftingTerminalScreen;
 import com.tom.storagemod.tile.CraftingTerminalBlockEntity;
 import net.minecraft.client.Minecraft;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
-import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import net.minecraft.world.inventory.Slot;
 
-@Mixin(PlayerRecipesWidget.class)
-public class PlayerRecipesWidgetMixin {
+public class CraftingTerminalWidget extends PlayerRecipesWidget implements ITickingRecipesWidget {
+    public CraftingTerminalWidget(CraftingTerminalScreen screen, Slot outputSlot) {
+        super(screen, outputSlot);
+    }
 
-    @Inject(method = "selectRecipe", at = @At("TAIL"))
-    private void onSelectRecipe(ResourceLocation resourceLocation, CallbackInfo ci) {
+    @Override
+    public void tick() {
+    }
+
+    @Override
+    public int getYPos() {
+        return super.getYPos() + 68;
+    }
+
+    @Override
+    public void selectRecipe(ResourceLocation id) {
+        super.selectRecipe(id);
         Player player = Minecraft.getInstance().player;
         if (player != null) {
             if (player.containerMenu instanceof CraftingTerminalMenu) {
@@ -28,10 +40,7 @@ public class PlayerRecipesWidgetMixin {
                     Minecraft.getInstance().execute(() -> {
                         try {
                             Thread.sleep(5);
-                            Minecraft.getInstance().execute(() -> {
-                                // 这里调用更新方法
-                                ((CraftingTerminalBlockEntityAccessor) craftingBlockEntity).invokeOnCraftingMatrixChanged();
-                            });
+                            Minecraft.getInstance().execute(() -> ((CraftingTerminalBlockEntityAccessor) craftingBlockEntity).invokeOnCraftingMatrixChanged());
                         } catch (InterruptedException e) {
                             e.printStackTrace();
                         }
@@ -39,5 +48,11 @@ public class PlayerRecipesWidgetMixin {
                 }
             }
         }
+    }
+    @Override
+    public void initChildWidgets() {
+        super.initChildWidgets();
+        int openButtonYOffset = -68;
+        this.openButton.setOffsets(this.getXPos(), this.getYPos() + openButtonYOffset);
     }
 }
