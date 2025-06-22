@@ -2,9 +2,9 @@ package com.kltyton.polymorphic_tom.widget;
 
 import com.illusivesoulworks.polymorph.api.client.base.ITickingRecipesWidget;
 import com.illusivesoulworks.polymorph.client.recipe.widget.PlayerRecipesWidget;
-import com.kltyton.polymorphic_tom.client.SharedState;
 import com.kltyton.polymorphic_tom.mixin.AbstractStorageTerminalScreenAccessor;
 import com.kltyton.polymorphic_tom.mixin.CraftingTerminalBlockEntityAccessor;
+import com.kltyton.polymorphic_tom.network.packet.SelectRecipePacket;
 import com.tom.storagemod.gui.CraftingTerminalMenu;
 import com.tom.storagemod.gui.CraftingTerminalScreen;
 import com.tom.storagemod.tile.CraftingTerminalBlockEntity;
@@ -61,20 +61,7 @@ public class CraftingTerminalWidget extends PlayerRecipesWidget implements ITick
         Player player = Minecraft.getInstance().player;
         if (player != null) {
             if (player.containerMenu instanceof CraftingTerminalMenu) {
-                CraftingTerminalBlockEntity craftingBlockEntity = SharedState.currentCraftingTerminal;
-                if (craftingBlockEntity != null) {
-                    ((CraftingTerminalBlockEntityAccessor) craftingBlockEntity).setRefillingGrid(false);
-                    ((CraftingTerminalBlockEntityAccessor) craftingBlockEntity).setCurrentRecipe(null);
-                    ((CraftingTerminalBlockEntityAccessor) craftingBlockEntity).setReading(false);
-                    Minecraft.getInstance().execute(() -> {
-                        try {
-                            Thread.sleep(5);
-                            Minecraft.getInstance().execute(() -> ((CraftingTerminalBlockEntityAccessor) craftingBlockEntity).invokeOnCraftingMatrixChanged());
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
-                    });
-                }
+                SelectRecipePacket.send();
             }
         }
     }
