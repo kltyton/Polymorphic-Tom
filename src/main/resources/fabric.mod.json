@@ -13,10 +13,13 @@
   },
   "license": "LGPL-3.0",
   "icon": "assets/polymorphic_tom/icon.png",
-  "environment": "client",
+  "environment": "*",
   "entrypoints": {
     "client": [
       "com.kltyton.polymorphic_tom.client.Polymorphic_tomClient"
+    ],
+    "server": [
+      "com.kltyton.polymorphic_tom.PolymorphicTomServer"
     ]
   },
   "mixins": [

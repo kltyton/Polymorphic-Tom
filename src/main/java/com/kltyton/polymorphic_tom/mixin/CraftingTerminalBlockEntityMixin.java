@@ -1,7 +1,6 @@
 package com.kltyton.polymorphic_tom.mixin;
 
 import com.illusivesoulworks.polymorph.common.crafting.RecipeSelection;
-import com.kltyton.polymorphic_tom.client.SharedState;
 import com.tom.storagemod.gui.CraftingTerminalMenu;
 import com.tom.storagemod.tile.CraftingTerminalBlockEntity;
 import net.minecraft.world.Container;
@@ -26,7 +25,6 @@ public class CraftingTerminalBlockEntityMixin {
     private <C extends Container, R extends Recipe<C>> Optional<R> getRecipe(
             RecipeManager manager, RecipeType<R> type, C container, Level level) {
         CraftingTerminalBlockEntity self = (CraftingTerminalBlockEntity) (Object) this;
-        SharedState.currentCraftingTerminal = self;
         Player player = null;
         CraftingTerminalMenu menu = null;
         HashSet<CraftingTerminalMenu> craftingListeners = ((CraftingTerminalBlockEntityAccessor) self).getCraftingListeners();
