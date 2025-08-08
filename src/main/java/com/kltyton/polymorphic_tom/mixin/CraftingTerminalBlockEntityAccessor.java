@@ -13,12 +13,19 @@ import java.util.HashSet;
 public interface CraftingTerminalBlockEntityAccessor {
     @Accessor("craftingListeners")
     HashSet<CraftingTerminalMenu> getCraftingListeners();
+
     @Invoker("onCraftingMatrixChanged")
     void invokeOnCraftingMatrixChanged();
+
     @Accessor("currentRecipe")
     void setCurrentRecipe(PlatformRecipe recipe);
+
+    @Accessor("currentRecipe")
+    PlatformRecipe getCurrentRecipe();
+
     @Accessor("refillingGrid")
     void setRefillingGrid(boolean value);
+
     @Accessor("reading")
     void setReading(boolean value);
 }

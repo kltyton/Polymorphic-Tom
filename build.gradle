@@ -32,8 +32,8 @@ dependencies {
     modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
 
     modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
-    modImplementation "curse.maven:polymorph-388800:5736385"
-    modImplementation "curse.maven:toms-storage-fabric-396826:5548579"
+    modImplementation "curse.maven:polymorph-388800:6450979"
+    modImplementation "curse.maven:toms-storage-fabric-396826:6418134"
 }
 
 processResources {

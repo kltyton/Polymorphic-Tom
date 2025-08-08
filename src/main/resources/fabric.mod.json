@@ -18,7 +18,7 @@
     "client": [
       "com.kltyton.polymorphic_tom.client.Polymorphic_tomClient"
     ],
-    "server": [
+    "main": [
       "com.kltyton.polymorphic_tom.PolymorphicTomServer"
     ]
   },

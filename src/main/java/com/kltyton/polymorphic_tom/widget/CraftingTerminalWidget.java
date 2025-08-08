@@ -2,16 +2,22 @@ package com.kltyton.polymorphic_tom.widget;
 
 import com.illusivesoulworks.polymorph.api.client.base.ITickingRecipesWidget;
 import com.illusivesoulworks.polymorph.client.recipe.widget.PlayerRecipesWidget;
+import com.kltyton.polymorphic_tom.client.SharedState;
 import com.kltyton.polymorphic_tom.mixin.AbstractStorageTerminalScreenAccessor;
 import com.kltyton.polymorphic_tom.mixin.CraftingTerminalBlockEntityAccessor;
-import com.kltyton.polymorphic_tom.network.packet.SelectRecipePacket;
+import com.kltyton.polymorphic_tom.network.SelectRecipePacket;
 import com.tom.storagemod.gui.CraftingTerminalMenu;
 import com.tom.storagemod.gui.CraftingTerminalScreen;
+import com.tom.storagemod.platform.PlatformRecipe;
 import com.tom.storagemod.tile.CraftingTerminalBlockEntity;
+import io.netty.buffer.Unpooled;
+import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.minecraft.client.Minecraft;
+import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.Slot;
+import net.minecraft.world.item.crafting.Recipe;
 
 public class CraftingTerminalWidget extends PlayerRecipesWidget implements ITickingRecipesWidget {
     private final CraftingTerminalScreen screen;
@@ -58,12 +64,12 @@ public class CraftingTerminalWidget extends PlayerRecipesWidget implements ITick
     @Override
     public void selectRecipe(ResourceLocation id) {
         super.selectRecipe(id);
-        Player player = Minecraft.getInstance().player;
-        if (player != null) {
-            if (player.containerMenu instanceof CraftingTerminalMenu) {
-                SelectRecipePacket.send();
-            }
-        }
+
+        FriendlyByteBuf buf = new FriendlyByteBuf(Unpooled.buffer());
+        buf.writeResourceLocation(id);
+        ClientPlayNetworking.send(
+                SelectRecipePacket.ID, buf
+        );
     }
     @Override
     public void initChildWidgets() {
